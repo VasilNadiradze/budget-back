@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: react
+    image: postgres
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-react}
+      POSTGRES_USER: ${POSTGRES_USER:-react}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-react}
+    ports:
+      - '5432:5432'
