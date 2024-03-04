@@ -16,7 +16,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
+  async signUp(signUpDto: SignUpDto): Promise<string> {
     try {
       const { firstName, lastName, email, password } = signUpDto;
 
@@ -41,13 +41,13 @@ export class AuthService {
 
       const token = this.jwtService.sign({ id: newUser.id });
 
-      return { token };
+      return token ;
     } catch (error) {
       throw error; 
     }
   }
 
-  async login(loginDto: LoginDto): Promise<{ token?: string; success?: boolean; message?: string }> {
+  async login(loginDto: LoginDto): Promise<string> {
     try {
       const { email, password } = loginDto;
   
@@ -63,7 +63,7 @@ export class AuthService {
   
       const token = this.jwtService.sign({ id: user.id });
   
-      return { success: true, token };
+      return token ;
     } catch (error) {
       throw error;
     }

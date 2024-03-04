@@ -4,11 +4,11 @@ import { AuthModule } from './auth/auth.module';
 import { TransactionModule } from './transaction/transaction.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModule } from './user/user.module';
+import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
-    UserModule, 
     CategoryModule, 
     AuthModule, 
     TransactionModule,
@@ -27,6 +27,12 @@ import { UserModule } from './user/user.module';
       }),
       inject: [ConfigService],
     }),
+  ],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseInterceptor, // respons-ების სტანდარტიზაცია
+    },
   ]
 })
 export class AppModule {}
