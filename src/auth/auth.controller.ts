@@ -7,10 +7,14 @@ import {
   UseGuards 
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LoginDto } from './dto/login.dto';
-import { SignUpDto } from './dto/signup.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { 
+  ApiBearerAuth, 
+  ApiOperation, 
+  ApiResponse, 
+  ApiTags 
+} from '@nestjs/swagger';
+import { LoginDto, SignUpDto } from 'src/common/database/dto';
 
 @Controller('auth')
 @ApiTags('მომხმარებლის არე')

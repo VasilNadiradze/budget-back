@@ -1,11 +1,29 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, HttpStatus } from '@nestjs/common';
+import { 
+  Controller, 
+  Get, 
+  Post, 
+  Body, 
+  Patch, 
+  Param, 
+  Delete, 
+  UseGuards, 
+  HttpStatus 
+} from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { UpdateTransactionDto } from './dto/update-transaction.dto';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { 
+  ApiBearerAuth, 
+  ApiOperation, 
+  ApiParam, 
+  ApiResponse, 
+  ApiTags 
+} from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthtUser } from 'src/common/decorators/auth.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { 
+  CreateTransactionDto, 
+  UpdateTransactionDto 
+} from 'src/common/database/dto';
+import { User } from 'src/common/database/entities';
 
 @Controller('transaction')
 @UseGuards(AuthGuard('jwt'))

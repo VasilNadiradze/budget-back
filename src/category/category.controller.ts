@@ -10,12 +10,20 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
-import { CreateCategoryDto } from './dto/create-category.dto';
-import { UpdateCategoryDto } from './dto/update-category.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthtUser } from 'src/common/decorators/auth.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { 
+  ApiBearerAuth, 
+  ApiOperation, 
+  ApiParam, 
+  ApiResponse, 
+  ApiTags
+} from '@nestjs/swagger';
+import { 
+  CreateCategoryDto, 
+  UpdateCategoryDto 
+} from 'src/common/database/dto';
+import { User } from 'src/common/database/entities';
 
 @Controller('category')
 @UseGuards(AuthGuard('jwt'))
