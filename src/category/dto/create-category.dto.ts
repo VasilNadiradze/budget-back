@@ -8,8 +8,5 @@ export class CreateCategoryDto {
         example: 'საოჯახო საყიდლები',
     })
     @IsNotEmpty()
-    title: string;
-    
-    @IsOptional()
-    user? : User
+    title: string;   
 }

@@ -25,27 +25,6 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @ApiOperation({
-    summary: 'კატეგორიების სია',
-  })
-  @ApiResponse({
-    status: 200,
-    description: 'ჩაიტვირტა წარმატებით',
-    type: [CreateCategoryDto],
-  })
-  @ApiResponse({
-    status: 400,
-    description: 'არასწორი პარამეტრები',
-  })
-  @ApiResponse({
-    status: 500,
-    description: 'სერვერული ხარვეზი',
-  })
-  @Get()
-  async findAll(@AuthtUser() user: User) {
-    return await this.categoryService.findAll(user.id);
-  }
-
-  @ApiOperation({
     summary: 'კატეგორიის შექმნა',
   })
   @ApiResponse({
@@ -69,6 +48,27 @@ export class CategoryController {
   }
 
   @ApiOperation({
+    summary: 'კატეგორიების სია',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'ჩაიტვირტა წარმატებით',
+    type: [CreateCategoryDto],
+  })
+  @ApiResponse({
+    status: 400,
+    description: 'არასწორი პარამეტრები',
+  })
+  @ApiResponse({
+    status: 500,
+    description: 'სერვერული ხარვეზი',
+  })
+  @Get()
+  async findAll(@AuthtUser() user: User) {
+    return await this.categoryService.findAll(user.id);
+  }
+
+  @ApiOperation({
     summary: 'კატეგორიის დეტალები',
   })
   @ApiResponse({
@@ -88,7 +88,7 @@ export class CategoryController {
   @ApiParam({
     name: 'id',
     required: true,
-    description: 'UUID of setting definition',
+    description: 'კატეგორიის ID',
   })
   @Get(':id')
   async findOne(
@@ -116,7 +116,7 @@ export class CategoryController {
   @ApiParam({
     name: 'id',
     required: true,
-    description: 'ჩანაწერის ID',
+    description: 'კატეგორიის ID',
   })
   @Patch(':id')
   async update(
@@ -145,7 +145,7 @@ export class CategoryController {
   @ApiParam({
     name: 'id',
     required: true,
-    description: 'ჩანაწერის ID',
+    description: 'კატეგორიის ID',
   })
   @Delete(':id')
   async remove(
