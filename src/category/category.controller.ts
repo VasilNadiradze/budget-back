@@ -24,8 +24,10 @@ import {
   UpdateCategoryDto 
 } from 'src/common/database/dto';
 import { User } from 'src/common/database/entities';
+import { AuthorGuard } from 'src/common/guards';
 
 @Controller('category')
+@UseGuards(AuthorGuard)
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('კატეგორიები')
 @ApiBearerAuth()

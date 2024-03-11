@@ -33,7 +33,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Login first to access this endpoint.');
+      throw new UnauthorizedException('გთხოვთ გაიაროთ ავტორიზაცია');
     }
 
     return user;
