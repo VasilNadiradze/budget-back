@@ -27,7 +27,7 @@ import { User } from 'src/common/database/entities';
 import { AuthorGuard } from 'src/common/guards';
 
 @Controller('transaction')
-//@UseGuards(AuthorGuard)
+@UseGuards(AuthorGuard)
 @UseGuards(AuthGuard('jwt'))
 @ApiTags('ტრანზაქციები')
 @ApiBearerAuth()
