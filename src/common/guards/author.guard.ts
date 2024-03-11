@@ -5,7 +5,6 @@ import {
   NotFoundException, 
   UnauthorizedException 
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Category, Transaction } from '../database/entities';
@@ -13,21 +12,25 @@ import { Category, Transaction } from '../database/entities';
 @Injectable()
 export class AuthorGuard implements CanActivate {
   constructor(
-    private readonly reflector: Reflector,
-    @InjectRepository(Category) private readonly categoryRepository: Repository<Category>,
-    @InjectRepository(Transaction) private readonly transactionRepository: Repository<Transaction>,
+    @InjectRepository(Category) 
+    private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Transaction) 
+    private readonly transactionRepository: Repository<Transaction>,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const userId = request.user.id; // Assuming you have the user information in the request
+    // const request = context.switchToHttp().getRequest();
+    // const userId = request.user.id; // Assuming you have the user information in the request
 
-    const route = request.route;
-    const pathSegments = route.path.split('/');
-    const entity = pathSegments[2]; // Assuming the entity is always at the third position in the path
-    const entityId = +request.params.id;
+    // const route = request.route;
+    // const method = request.method;
+    // const pathSegments = route.path.split('/');
+    // const entity = pathSegments[2]; 
+    // const entityId = +request.params.id;
 
-    console.log(entityId);
+    // console.log(route.path);
+    // console.log(pathSegments);
+    // console.log(pathSegments.length);
 
     // let item;
 
