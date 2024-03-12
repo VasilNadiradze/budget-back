@@ -101,11 +101,8 @@ export class CategoryController {
     description: 'კატეგორიის ID',
   })
   @Get(':id')
-  async findOne(
-    @AuthtUser() user: User, 
-    @Param('id') id: number
-  ) {
-    return await this.categoryService.findOne(user.id, +id);
+  async findOne(@Param('id') id: number) {
+    return await this.categoryService.findOne(+id);
   }
 
   @ApiOperation({
@@ -130,11 +127,10 @@ export class CategoryController {
   })
   @Patch(':id')
   async update(
-    @AuthtUser() user: User,
     @Param('id') id: string, 
     @Body() updateCategoryDto: UpdateCategoryDto
   ) {
-    return await this.categoryService.update(user.id, +id, updateCategoryDto);
+    return await this.categoryService.update(+id, updateCategoryDto);
   }
 
   @ApiOperation({
@@ -158,10 +154,8 @@ export class CategoryController {
     description: 'კატეგორიის ID',
   })
   @Delete(':id')
-  async remove(
-    @AuthtUser() user: User, 
-    @Param('id') id: string
+  async remove(@Param('id') id: string
   ) {
-    return await this.categoryService.remove(user.id, +id);
+    return await this.categoryService.remove(+id);
   }
 }

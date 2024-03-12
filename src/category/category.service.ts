@@ -62,14 +62,10 @@ export class CategoryService {
     }
   }
 
-  async findOne(
-    userId: number, 
-    id: number
-  ) {
+  async findOne(id: number) {
     try{
       const category = await this.categoryRepository.findOne({ 
         where: { 
-          user: { id: userId }, 
           id: id
         },
         relations: {
@@ -85,14 +81,11 @@ export class CategoryService {
     }
   }
 
-  async update(
-    userId: number, 
-    id: number, 
-    updateCategoryDto: UpdateCategoryDto
-  ) {
+  async update(id: number, updateCategoryDto: UpdateCategoryDto) {
     try{
-      const category = await this.findOne(userId, id);
-      if(!category) throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      const category = await this.findOne(id);
+      if(!category) 
+        throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
       category.title = updateCategoryDto.title;
       await this.categoryRepository.save(category);
       return category;
@@ -101,9 +94,9 @@ export class CategoryService {
     }   
   }
 
-  async remove(userId: number, id: number) {
+  async remove(id: number) {
     try{
-      const category = await this.findOne(userId, id);
+      const category = await this.findOne(id);
       if(!category) throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
       await this.categoryRepository.delete(id);
       return { 

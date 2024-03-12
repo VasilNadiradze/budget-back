@@ -5,13 +5,15 @@ import {
   CreateTransactionDto, 
   UpdateTransactionDto 
 } from 'src/common/database/dto';
-import { Transaction } from 'src/common/database/entities';
+import { Category, Transaction } from 'src/common/database/entities';
 
 @Injectable()
 export class TransactionService {
   constructor(
     @InjectRepository(Transaction)
-    private readonly transactionRepository: Repository<Transaction>
+    private readonly transactionRepository: Repository<Transaction>,
+    @InjectRepository(Category) 
+    private readonly categoryRepository: Repository<Category>,
   ){}
 
   async create(
@@ -19,12 +21,22 @@ export class TransactionService {
     createTransactionDto: CreateTransactionDto
   ) {
     try{
+      const category = await this.categoryRepository.findOne({ 
+        where: { 
+          id: +createTransactionDto.category,
+          user: { id: userId }, 
+        },
+      });
+
+      if(!category) 
+        throw new NotFoundException('კატეგორია ვერ მოიძებნა');
+
       const newTransaction = await this.transactionRepository.save({
         title: createTransactionDto.title,
         amount: createTransactionDto.amount,
         type: createTransactionDto.type,
         user: { id: userId },
-        transaction: { id: +createTransactionDto.category }
+        category: { id: +createTransactionDto.category }
       });
 
       return newTransaction;
@@ -54,14 +66,10 @@ export class TransactionService {
     }
   }
 
-  async findOne(
-    userId: number, 
-    id: number
-  ) {
+  async findOne(id: number) {
     try{
       const transaction = await this.transactionRepository.findOne({ 
         where: { 
-          user: { id: userId }, 
           id: id
         },
         relations: {
@@ -69,7 +77,8 @@ export class TransactionService {
         }
       });
 
-      if(!transaction) throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      if(!transaction) 
+        throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
       
       return transaction;
     }catch(err){
@@ -78,16 +87,19 @@ export class TransactionService {
   }
 
   async update(
-    userId: number, 
     id: number, 
     updateTransactionDto: UpdateTransactionDto
   ) {
     try{
-      const transaction = await this.findOne(userId, id);
-      if(!transaction) throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      const transaction = await this.findOne(id);
+
+      if(!transaction) 
+        throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+
       transaction.title = updateTransactionDto.title;
       transaction.amount = updateTransactionDto.amount;
       transaction.category = updateTransactionDto.category;
+
       await this.transactionRepository.save(transaction);
       return transaction;
     }catch(err){
@@ -95,10 +107,13 @@ export class TransactionService {
     }   
   }
 
-  async remove(userId: number, id: number) {
+  async remove(id: number) {
     try{
-      const transaction = await this.findOne(userId, id);
-      if(!transaction) throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      const transaction = await this.findOne(id);
+
+      if(!transaction) 
+        throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+
       await this.transactionRepository.delete(id);
       return { 
         message: 'წაიშალა წარმატებით' 

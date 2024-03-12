@@ -19,40 +19,40 @@ export class AuthorGuard implements CanActivate {
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    // const request = context.switchToHttp().getRequest();
-    // const userId = request.user.id; // Assuming you have the user information in the request
+    const request = context.switchToHttp().getRequest();
+    const entityId = +request.params.id;
 
-    // const route = request.route;
-    // const method = request.method;
-    // const pathSegments = route.path.split('/');
-    // const entity = pathSegments[2]; 
-    // const entityId = +request.params.id;
+    if(entityId){
+      let item;
+      const userId = request.user.id; 
+      const route = request.route;
+      const pathSegments = route.path.split('/');
+      const entity = pathSegments[2];
+      switch (entity) {
+        case 'category':
+          item = await this.categoryRepository.findOne({ 
+            where: { id: entityId } ,
+            relations: { user: true }
+          });
+          break;
+        case 'transaction':
+          item = await this.transactionRepository.findOne({ 
+            where: { id: entityId } ,
+            relations: { user: true }
+          });
+          break;
+        default:
+          throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      }
 
-    // console.log(route.path);
-    // console.log(pathSegments);
-    // console.log(pathSegments.length);
+      if (!item) {
+        throw new NotFoundException('ჩანაწერი ვერ მოიძებნა');
+      }
 
-    // let item;
-
-    // switch (entity) {
-    //   case 'category':
-    //     item = await this.categoryRepository.findOne({ where: { id: entityId } });
-    //     break;
-    //   case 'transaction':
-    //     item = await this.transactionRepository.findOne({ where: { id: entityId } });
-    //     break;
-    //   default:
-    //     throw new NotFoundException('Entity not found');
-    // }
-
-    // if (!item) {
-    //   throw new NotFoundException('Item not found');
-    // }
-
-    // // Check if the authenticated user is the author of the item
-    // if (item.author.id !== userId) {
-    //   throw new UnauthorizedException('You do not have permission');
-    // }
+      if (item.user.id !== userId) {
+        throw new UnauthorizedException('თქვენ არ გაქვთ ამ ოპერაციის შესრულების უფლება');
+      }
+    }
 
     return true;
   }

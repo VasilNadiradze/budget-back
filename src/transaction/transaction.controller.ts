@@ -101,11 +101,8 @@ export class TransactionController {
     description: 'ტრანზაქციის ID',
   })
   @Get(':id')
-  async findOne(
-    @AuthtUser() user: User, 
-    @Param('id') id: number
-  ) {
-    return await this.transactionService.findOne(user.id, +id);
+  async findOne(@Param('id') id: number) {
+    return await this.transactionService.findOne(+id);
   }
 
   @ApiOperation({
@@ -130,11 +127,10 @@ export class TransactionController {
   })
   @Patch(':id')
   async update(
-    @AuthtUser() user: User,
     @Param('id') id: string, 
     @Body() updateCategoryDto: UpdateTransactionDto
   ) {
-    return await this.transactionService.update(user.id, +id, updateCategoryDto);
+    return await this.transactionService.update(+id, updateCategoryDto);
   }
 
   @ApiOperation({
@@ -158,10 +154,7 @@ export class TransactionController {
     description: 'ტრანზაქციის ID',
   })
   @Delete(':id')
-  async remove(
-    @AuthtUser() user: User, 
-    @Param('id') id: string
-  ) {
-    return await this.transactionService.remove(user.id, +id);
+  async remove(@Param('id') id: string) {
+    return await this.transactionService.remove(+id);
   }
 }
